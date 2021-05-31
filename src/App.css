@@ -1,5 +1,5 @@
 body {
-  min-width: 300px; /* your desiredwidth */
+  min-width: 325px; /* your desiredwidth */
   max-width: 100%;
   min-height: 500px;
   max-height: 100%;
@@ -8,6 +8,7 @@ body {
 }  
 .App {
   text-align: center;
+  background-color: brown;
 }
 
 .App-logo {
