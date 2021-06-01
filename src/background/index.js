@@ -39,12 +39,13 @@ var platforms = [
 async function fetchAllMyContests() {
 	console.log("In fetch all my contests");
 	myContests = [];
+
 	for (var i = 0; i < platforms.length; i++) {
 		if (!platforms[i].isSubscribed) continue;
 
 		var contests = await fetchContestDetails(platforms[i].platform);
 		for (var contest of contests) {
-			myContests.push(contest);
+			if (contest.duration <= 864001) myContests.push(contest);
 		}
 	}
 }
@@ -67,7 +68,7 @@ chrome.runtime.onStartup.addListener(() => {
 // schedule a new fetch every 1440 minutes
 function scheduleRequest() {
 	console.log("schedule refresh alarm to 1440 minutes...");
-	chrome.alarms.create("refresh", { periodInMinutes: 1440 });
+	chrome.alarms.create("refresh", { periodInMinutes: 60 });
 }
 
 // fetch data and save to local storage
@@ -78,6 +79,7 @@ async function startRequest() {
 	await fetchAllMyContests();
 	await setmyContests();
 	await getmyContests();
+	console.log(myContests);
 }
 
 chrome.alarms.onAlarm.addListener(async (alarm) => {
@@ -96,7 +98,7 @@ async function setmyContests() {
 
 async function setmyPlatforms() {
 	console.log("In setmyPlatforms");
-	await localforage.setItem("platforms", myContests);
+	await localforage.setItem("platforms", platforms);
 }
 
 function getmyContests() {
@@ -106,6 +108,7 @@ function getmyContests() {
 		myContests = value;
 	});
 }
+
 async function getPlatforms() {
 	console.log("1. In getPlatforms");
 	await localforage.getItem("platforms", function (err, value) {
@@ -113,7 +116,7 @@ async function getPlatforms() {
 			console.log("Err: No platforms array in DB");
 			return;
 		}
-		myContests = value;
+		platforms = value;
 		console.log(value);
 	});
 }
