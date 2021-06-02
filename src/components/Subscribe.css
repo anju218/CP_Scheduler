@@ -18,17 +18,27 @@
     align-self: center;
     align-content: center;
 }
-.list-group-item{
+.checkbox-list-secondary-label{
     width: 300px;
     align-items: center;
     align-self: center;
     align-content: center;
     margin-right: 30px;
     background-color: aqua;
+    
 }
 .form-group{
     width: 300px;
     align-items: center;
     align-self: center;
     align-content: center;
+}
+.list-group-item{
+    list-style-image: url('./img/codechef.jpg');
+    width: 300px;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    margin-right: 30px;
+    background-color: aqua;
 }

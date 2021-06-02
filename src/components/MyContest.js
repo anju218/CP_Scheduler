@@ -1,64 +1,62 @@
-import { render } from '@testing-library/react'
-import axios from 'axios'
-import React,{useState,useEffect} from 'react'
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import localforage from "localforage";
 
+let myContests_db = [];
+
+localforage.getItem("myContests", function (err, value) {
+	if (err) console.log(err);
+	myContests_db = value;
+});
 
 export default function MyContest() {
-    const [contests, setcontests] = useState([])
-    useEffect(function(){
-        axios
-        .get("https://www.kontests.net/api/v1/all")
-        .then((response)=>setcontests(response.data))
-        .then(console.log("error"))
+	//let contest=[]
+	//contest=contests_in_24_hours(myContests_db)
+	//console.log(contest)
+	const [mycontest,setmycontest]= useState(() => {
+		return myContests_db
+	}
 
-    })
-    // let contest24 = contests.map(x => {
-    //   if ({x.in_24_hrs}==="Yes")
-    //       return x; // unchanged
-    // })
-//     render(); {
-//       return (   
-//               {this.contests.in_24_hours == 'Yes'? {contests.name}: null }
-          
-//       )
-//   }
+	)
+	//setmycontest(contest24 => contest24= myContests_db)
+	{
+		return (
+			<div>
+				{mycontest.map((contest) => (
+					<div class="card text-center">
+						<div class="card-header">{contest.name}</div>
+						<div class="card-body">
+							<h5 class="card-title">
+								Start:{getDate(contest.start_time)}
+							</h5>
+							<a href=" {contest.url}" class="btn btn-primary">
+								Go to Contest
+							</a>
+						</div>
+					</div>
+				))}
+			</div>
+		);
+	}
+}
+
+function getDate(d) {
+	var date = new Date(d);
+	return date.toLocaleString("en-US");
+}
+
+function contests_in_24_hours(myContests_db) {
+	//await getmyContests();
+	var in_24_hours = [];
+	for (var contest of myContests_db) {
+		if (contest.in_24_hours === "Yes") in_24_hours.push(contest);
+	}
+	return in_24_hours;
+}
+
+//================================ DB functions =================================
+
+// async function setmyContests() {
+// 	console.log("In setmyContests");
+// 	await localforage.setItem("myContests", myContests_db);
 // }
-    //   contests.map(()=>(
-    //     if (condition) {
-          
-    //     }
-    //   ))
-    //   if(contests.map(()=>(
-    //     contests.in_24_hours=="Yes"
-    //   ))){
-    //     return(
-    //       <div>
-    //         <div class="card text-center">
-    //           <div class="card-header">
-    //             {contests.name}
-    //           </div>
-    //           <div class="card-body">
-    //             <h5 class="card-title">Start:{contests.start_time}</h5>
-    //             <a href="{contest.url}" class="btn btn-primary">Go to Contest</a>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     )
-    //   }
-    
-      
-    // }
-  //   contest24=<Contest/>
-  //   {contest24.map((contest) =>  (
-  //     <div class="card text-center">
-  //     <div class="card-header">
-  //       {contest.name}
-  //     </div>
-  //     <div class="card-body">
-  //       <h5 class="card-title">Start:{contest.start_time}</h5>
-  //       <a href="{contest.url}" class="btn btn-primary">Go to Contest</a>
-  //     </div>
-  //   </div>
-
-  // ))}
-  }   
