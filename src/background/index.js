@@ -1,8 +1,18 @@
 import localforage from "localforage";
-// https://levelup.gitconnected.com/how-to-use-background-script-to-fetch-data-in-chrome-extension-ef9d7f69625d
 console.log("IN background");
 
+/**
+ * How to manage deleted Contests?
+ * If some contest is deleted then its added to Deleted contests array...
+ *
+ * If some contest is in deleted contests then even after fetching don't add it to myContests.
+ *
+ * Now to avoid deletedContests size becoming infinite...
+ * We deleted the element in it if has not occued during a fetch of all contests.
+ */
+
 var myContests = [];
+var deletedContests = [];
 
 var platforms = [
 	{
@@ -40,15 +50,31 @@ async function fetchAllMyContests() {
 	console.log("In fetch all my contests");
 	myContests = [];
 
+	// We delete an element in it if tit has occured in the fetch...
+	var usedDeletedContests = [];
+
 	for (var i = 0; i < platforms.length; i++) {
 		if (!platforms[i].isSubscribed) continue;
 
 		var contests = await fetchContestDetails(platforms[i].platform);
 		for (var contest of contests) {
-			if (contest.duration <= 864001) myContests.push(contest);
+			if (contest.duration <= 864001) {
+				var contest_name = contest.name;
+				var isDeleted = false;
+				for (var deletedContest of deletedContests) {
+					if (deletedContest.name === contest_name) {
+						isDeleted = true;
+						usedDeletedContests.push(contest);
+					}
+				}
+				if (!isDeleted) myContests.push(contest);
+			}
 		}
 	}
+	deletedContests = usedDeletedContests;
 }
+
+// ================================= Testing ============================
 
 // =============================Alarms, startup, instaleed functions =======================
 
@@ -76,16 +102,21 @@ async function startRequest() {
 	console.log("start HTTP Request...");
 	// We need to get the array that user has stored previously if not then we use original one
 	await getPlatforms();
+	await getDeletedContests();
 	await fetchAllMyContests();
+	await setDeletedContests();
 	await setmyContests();
-	await getmyContests();
+	getmyContests();
 	console.log(myContests);
+	console.log(deletedContests);
 }
 
 chrome.alarms.onAlarm.addListener(async (alarm) => {
 	if (alarm.name === "refresh") {
 		await getPlatforms();
+		await getDeletedContests();
 		await fetchAllMyContests();
+		await setDeletedContests();
 		await setmyContests();
 	}
 });
@@ -99,6 +130,11 @@ async function setmyContests() {
 async function setmyPlatforms() {
 	console.log("In setmyPlatforms");
 	await localforage.setItem("platforms", platforms);
+}
+
+async function setDeletedContests() {
+	console.log("In setDeletedContests");
+	await localforage.setItem("deletedContests", deletedContests);
 }
 
 function getmyContests() {
@@ -117,6 +153,18 @@ async function getPlatforms() {
 			return;
 		}
 		platforms = value;
+		console.log(value);
+	});
+}
+
+async function getDeletedContests() {
+	console.log("1. In get Deleted Contests");
+	await localforage.getItem("deltedContests", function (err, value) {
+		if (err || value === null) {
+			console.log("Err: No deletedContests array in DB");
+			return;
+		}
+		deletedContests = value;
 		console.log(value);
 	});
 }
