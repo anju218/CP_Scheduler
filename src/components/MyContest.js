@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import localforage from "localforage";
+import { getAllByPlaceholderText } from "@testing-library/dom";
+import "./Subscribe.css";
 
 let myContests_db = [];
 
@@ -23,18 +25,25 @@ export default function MyContest() {
 		return (
 			<div>
 				{mycontest.map((contest) => (
+					<div>
 					<div class="card text-center">
-						<div class="card-header">{contest.name}</div>
-						<div class="card-body">
-							<h5 class="card-title">
-								Start:{getDate(contest.start_time)}
-							</h5>
-							<a href=" {contest.url}" class="btn btn-primary">
-								Go to Contest
-							</a>
-						</div>
-					</div>
+					<h6 class="card-header">{contest.name}</h6>
+					<div class="card-body">
+					  <h7 class="card-title">Start:{getDate(contest.start_time)}</h7>
+					  <button type="button" class="btn btn-primary btn-sm">Go to Contest</button>
+					  <button type="button" class="btn btn-primary btn-sm"><i class="bi bi-trash-fill"></i></button>
+					  <button type="button" class="btn btn-primary btn-sm"><i class="bi bi-calendar-event"></i></button>
+					  <button type="button" class="btn btn-primary btn-sm"><i class="bi bi-alarm-fill"></i></button>
+					  
+					 
+					</div>	
+				  </div>
+							
+							
+					<br></br>
+					</div>		
 				))}
+				
 			</div>
 		);
 	}

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { InputLabel, Input, Button, Icon, SvgIcon } from "@material-ui/core";
+import { InputLabel, Input, Button, Icon, SvgIcon, List, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
@@ -32,9 +32,11 @@ export default function Subscribe() {
 		hackerrank: true,
 		atcoder: true,
 		kickstart: true,
+		leetcode: true
 	});
 
 	const handleChange = (event) => {
+
 		setState({ ...state, [event.target.name]: event.target.checked });
 	};
 
@@ -45,98 +47,131 @@ export default function Subscribe() {
 		hackerrank,
 		atcoder,
 		kickstart,
+		leetcode
 	} = state;
 
 	return (
 		<div className="form">
 			<h2 className="title">SUBSCRIBE</h2>
-			<FormControl component="fieldset" className={classes.formControl}>
-				<div className="subs">
-					<FormGroup>
-						<div>
-						<FormControlLabel
-							className="list-group-item" 
-							control={
-								<Checkbox
+			{/* <FormControl component="fieldset" className={classes.formControl}> */}
+				<div>
+					<List className="list-group-item">
+						
+						<ListItem button >
+							<ListItemAvatar>
+								<Avatar
+									alt={"Codechef"}
+									src={`img/CC.png`}
+								/>
+							</ListItemAvatar>
+							<ListItemText primary={`CodeChef`}/>
+							<ListItemSecondaryAction>
+								<Checkbox name="codechef"
 									checked={codechef}
 									onChange={handleChange}
-									name="codechef"		
 								/>
-								
-							}
-							
-							label="CodeChef"
-						/>
-						</div>
-						<FormControlLabel
-							className="list-group-item"
-							control={
-								
-								<Checkbox
+							</ListItemSecondaryAction>
+						</ListItem>
+						<ListItem button >
+							<ListItemAvatar>
+								<Avatar
+									alt={"CodeForces"}
+									src={`img/codechef.png`}
+								/>
+							</ListItemAvatar>
+							<ListItemText primary={`CodeForces`}/>
+							<ListItemSecondaryAction>
+								<Checkbox name="codeforces"
 									checked={codeforces}
 									onChange={handleChange}
-									name="codeforces"
 								/>
-							}
-							label="CodeForces"
-							background={blueGrey}
-						/>
-						<FormControlLabel
-							className="list-group-item"
-							control={
-								<Checkbox
-									checked={hackerearth}
-									onChange={handleChange}
-									name="hackerearth"
+							</ListItemSecondaryAction>
+						</ListItem>
+						<ListItem button >
+							<ListItemAvatar>
+								<Avatar
+									alt={"HackerRank"}
+									src={`img/hackerrank.png`}
 								/>
-							}
-							label="HackerEarth"
-							background={blueGrey}
-						/>
-						<FormControlLabel
-							className="list-group-item"
-							control={
-								<Checkbox
+							</ListItemAvatar>
+							<ListItemText primary={`HackerRank`}/>
+							<ListItemSecondaryAction>
+								<Checkbox name="hackerrank"
 									checked={hackerrank}
 									onChange={handleChange}
-									name="hackerrank"
 								/>
-							}
-							label="HackerRank"
-							background={blueGrey}
-						/>
-						<FormControlLabel
-							className="list-group-item"
-							control={
-								<Checkbox
+							</ListItemSecondaryAction>
+						</ListItem>
+						<ListItem button >
+							<ListItemAvatar>
+								<Avatar
+									alt={"HackerEarth"}
+									src={`img/hackerearth.png`}
+								/>
+							</ListItemAvatar>
+							<ListItemText primary={`HackerEarth`}/>
+							<ListItemSecondaryAction>
+								<Checkbox name="hackerearth"
+									checked={hackerearth}
+									onChange={handleChange}
+								/>
+							</ListItemSecondaryAction>
+						</ListItem>
+						<ListItem button >
+							<ListItemAvatar>
+								<Avatar
+									alt={"AtCoder"}
+									src={`img/topcoder.png`}
+								/>
+							</ListItemAvatar>
+							<ListItemText primary={`AtCoder`}/>
+							<ListItemSecondaryAction>
+								<Checkbox name="atcoder"
 									checked={atcoder}
 									onChange={handleChange}
-									name="atcoder"
 								/>
-							}
-							label="AtCoder"
-							background={blueGrey}
-						/>
-						<FormControlLabel
-							className="list-group-item"
-							control={
-								<Checkbox
+							</ListItemSecondaryAction>
+						</ListItem>
+						<ListItem button >
+							<ListItemAvatar>
+								<Avatar
+									alt={"KickStart"}
+									src={`img/icon32.png`}
+								/>
+							</ListItemAvatar>
+							<ListItemText primary={`KickStart`}/>
+							<ListItemSecondaryAction>
+								<Checkbox name="kickstart"
 									checked={kickstart}
 									onChange={handleChange}
-									name="kickstart"
 								/>
-							}
-							label="KickStart"
-							background={blueGrey}
-						/>
-					</FormGroup>
+							</ListItemSecondaryAction>
+						</ListItem>
+						<ListItem button >
+							<ListItemAvatar>
+								<Avatar
+									alt={"LeetCode"}
+									src={`img/leetcode.png`}
+								/>
+							</ListItemAvatar>
+							<ListItemText primary={`Leetcode`}/>
+							<ListItemSecondaryAction>
+								<Checkbox name="leetcode"
+									checked={leetcode}
+									onChange={handleChange}
+								/>
+							</ListItemSecondaryAction>
+						</ListItem>
+							 
+						
+					</List>
 					{/* <div className="form-group">
             <Button className="btn btn-success">
                Save Changes
             </Button>
         </div> */}
 				</div>
-			</FormControl>
+			{/* </FormControl> */}
 		</div>
 	);
 }
