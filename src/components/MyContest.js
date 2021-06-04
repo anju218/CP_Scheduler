@@ -30,7 +30,7 @@ export default function MyContest() {
 					<h6 class="card-header">{contest.name}</h6>
 					<div class="card-body">
 					  <h7 class="card-title">Start:{getDate(contest.start_time)}</h7>
-					  <button type="button" class="btn btn-primary btn-sm">Go to Contest</button>
+					  <button type="button" shape="circle" class="btn btn-primary btn-sm">Go to Contest</button>
 					  <button type="button" class="btn btn-primary btn-sm"><i class="bi bi-trash-fill"></i></button>
 					  <button type="button" class="btn btn-primary btn-sm"><i class="bi bi-calendar-event"></i></button>
 					  <button type="button" class="btn btn-primary btn-sm"><i class="bi bi-alarm-fill"></i></button>
